@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        <style>
+            *{
+                padding: 0;
+                margin: 0;
+            }
+            body{
+                background-image: url(https://bing.shangzhenyang.com/api/4k);
+                
+/* 背景图垂直、水平均居中 */
+background-position: center center;
+
+/* 背景图不平铺 */
+background-repeat: no-repeat;
+
+/* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */
+background-attachment: fixed;
+
+/* 让背景图基于容器大小伸缩 */
+background-size: cover;
+
+/* 设置背景颜色，背景图加载过程中会显示背景色 */
+background-color: #464646;
+            }
+        #include {
+            position: relative;
+            top : 800px;
+            left: 1400px;
+            width: 500px;
+            height: 100px;
+            color: white;
+            /* 主要内容 */
+            background: rgba(0, 0, 0, 0.045);
+            /* 模糊大小就是靠的blur这个函数中的数值大小 */
+            backdrop-filter: blur(30px);
+            border-radius: 30px;
+        }
+        #title {
+            width: 100%;
+            height: 50%;
+            text-align: center;
+
+        }
+        #content {
+            width: 100%;
+            height: 50%;
+            text-align: center;
+        }
+        .clock{
+            
+            position: absolute;
+            top : 10px;
+            left: 1700px;
+            width: 150px;
+            height: 80px;
+            border: 2px solid red;
+            animation: flowing-border 4s infinite;    
+        }
+        
+        
+        @keyframes flowing-border {
+  0% {
+    border-color: red;
+  }
+  25% {
+    border-color: blue;
+  }
+  50% {
+    border-color: green;
+  }
+  75% {
+    border-color: yellow;
+  }
+  100% {
+    border-color: red;
+  }
+}
+        
+        #clockTime{
+            width: 130px;
+            height: 20px;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 20px;
+            
+        }
+        #clickDate{
+            width: 130px;
+            height: 20px;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 15px;
+           
+        }    
+        button {
+  padding: 10px 20px;
+  background-color: #d10d68;
+  color: white;
+  font-size: 16px;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  left: 1700px;
+}
+
+button:before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, #ffffff, transparent);
+  opacity: 0;
+  transform: rotate(0deg);
+  animation: flowing-rays 3s infinite;
+}
+
+@keyframes flowing-rays {
+  0% {
+    transform: rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    transform: rotate(360deg);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(720deg);
+    opacity: 0;
+  }
+}
+        </style>
+    </head>
+    <body>
+        
+        <div id ='include'>
+        <div id="title"></div>
+        <div id="context"></div>
+       </div>
+       <div class="clock">
+            <div id="clockTime"></div>
+            <div id="clickDate"></div>
+        </div>
+        <button onclick="refreshPage()">刷新页面</button>
+    </body>
+
+ <script>
+function refreshPage(){
+  location.reload();
+}
+// WARNING: For GET requests, body is set to null by browsers.
+var test =new Array();
+var xhr9 = new XMLHttpRequest();
+xhr9.withCredentials = false;
+xhr9.addEventListener("readystatechange", function() {
+  if(this.readyState === 4) {
+    
+    test = JSON.parse(this.responseText);
+    console.log(test.images[0].title);
+    console.log(test.images[0].copyright);
+    var title = document.getElementById("title");
+    var context = document.getElementById("context");
+    context.innerText = test.images[0].copyright;
+    title.innerText = test.images[0].title;
+
+  }
+});
+
+xhr9.open("GET", "https://bing.shangzhenyang.com/api/json");
+
+xhr9.send();
+           
+showDateTime();
+        //开启一个定时器，让网页上的时间能自动更新
+        let timer = setInterval(showDateTime,1000);
+        //搞起
+        function showDateTime() {
+            //获取当前日期
+            let years = new Date().getFullYear();
+            let months = new Date().getMonth()
+            let days = new Date().getDate();
+ 
+            // 获取当前时间
+            let hour = new Date().getHours();
+            let minute = new Date().getMinutes();
+            let second = new Date().getSeconds();
+ 
+            //设定一个字符串
+            let showTime = '';
+            //把时间按特定格式显示
+            showTime = hour + ":" + minute + ":" + second;
+            showDate = years + "年" + months + "月" + days + "日"
+           //将时间显示到页面
+            document.getElementById("clockTime").innerHTML=showTime;
+            document.getElementById("clickDate").innerHTML = showDate
+        }
+
+       
+        
+</script>
+<script type="text/javascript" src="http://cdn.repository.webfont.com/wwwroot/js/wf/youziku.api.min.js"></script>
+<script type="text/javascript" src="http://cdn.repository.webfont.com/wwwroot/js/wf/youziku.api.min.js"></script>
+<script type="text/javascript">
+   $webfont.load("body", "b07718262a8a4aa18d45e00de3f9bb9d", "RiWenLOGO");
+   /*$webfont.load("#id1,.class1,h1", "b07718262a8a4aa18d45e00de3f9bb9d", "RiWenLOGO");*/
+   /*．．．*/
+   $webfont.draw();
+</script>
+</html>
